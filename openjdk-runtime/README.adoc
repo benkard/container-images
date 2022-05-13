@@ -26,10 +26,7 @@ https://jdk.java.net[jdk.java.net] on top of a
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/building_running_and_managing_containers/assembly_types-of-container-images_building-running-and-managing-containers#con_understanding-the-ubi-micro-images_assembly_types-of-container-images[Red
 Hat UBI Micro] base.
 
-The module set was selected for
-https://gerrit.benkard.de/plugins/gitiles/mulkcms2/[MulkCMS 2], which
-is a typical Quarkus application.  It will very likely work for other
-typical Quarkus applications.
+By default the image contains all modules shipped with OpenJDK.
 
 
 == Building
@@ -45,20 +42,21 @@ docker build -t $IMAGE_NAME .
 
 You may want to customize the module set included in the JDK.
 
-For example, specifying `ALL-MODULE-PATH` includes all modules
-included in the OpenJDK distribution:
+For example, say all you need are `java.base` and `java.naming`, then
+the following excludes everything else contained in the OpenJDK
+distribution:
 
 [source,dockerfile]
 ----
 RUN /jdk/*/bin/jlink \
     -J-XX:MaxRAMPercentage=75 \
-    --add-modules ALL-MODULE-PATH \ #<1>
+    --add-modules java.base,java.naming \ #<1>
     --compress=1 \
     --no-man-pages \
     --strip-debug \
     --output /java
 ----
-<1> Include all JDK modules.
+<1> Include the JDK modules that you need.
 
 
 == Usage
