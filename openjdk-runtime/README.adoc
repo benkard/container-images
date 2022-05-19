@@ -65,3 +65,14 @@ RUN /jdk/*/bin/jlink \
 ----
 docker run $IMAGE_NAME java -version
 ----
+
+
+== License
+
+This recipe is freely redistributable under the GNU General Public
+License, version 3, or, at your option, any later version.
+
+Redistribution of the resulting container image is subject to the
+https://www.redhat.com/en/about/agreements#UBI[Red Hat Universal Base
+Image EULA] in addition to the license terms applicable to the
+individual software components it consists of.
