@@ -8,6 +8,7 @@ set -euo pipefail
 cd "$(dirname $(readlink -e "$0"))"
 
 image=docker.benkard.de/mulk/openjdk-runtime:latest
+dependencies=(registry.access.redhat.com/ubi9/ubi-micro:latest registry.access.redhat.com/ubi9/ubi-minimal:latest)
 use_kaniko=no
 
 ./prepare
@@ -31,6 +32,9 @@ if [[ "${use_kaniko}" == yes ]]; then
         --cache-ttl=16800h0m0s \
         --reproducible=true
 else
+    for x in "${dependencies[@]}"; do
+        docker pull "$x"
+    done
     docker build -t "${image}" .
     docker push "${image}"
 fi
